@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@xstate/test": "^0.4.1",
     "apollo-datasource": "^0.1.3",
     "apollo-datasource-rest": "^0.1.5",
     "apollo-server": "^2.15.0",
@@ -22,8 +23,9 @@
     "mime": "^2.4.4",
     "nodemon": "^1.19.4",
     "sequelize": "^5.21.2",
-    "sqlite3": "^4.1.1",
-    "uuid": "^3.3.3"
+    "sqlite3": "^4.2.0",
+    "uuid": "^3.3.3",
+    "xstate": "^4.13.0"
   },
   "devDependencies": {
     "apollo": "^2.1.8",
