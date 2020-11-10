@@ -48,7 +48,7 @@ const Launches: React.FC<LaunchesProps> = () => {
   >(GET_LAUNCHES);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading data-testid="launches-loading" />;
   if (error || !data) return <p>ERROR</p>;
 
   return (
@@ -61,7 +61,7 @@ const Launches: React.FC<LaunchesProps> = () => {
         ))}
       {data.launches && data.launches.hasMore && (
         isLoadingMore
-          ? <Loading />
+          ? <Loading data-testid="launches-loading-more" />
           : <Button
               onClick={async () => {
                 setIsLoadingMore(true);

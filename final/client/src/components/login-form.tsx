@@ -49,7 +49,7 @@ export default class LoginForm extends Component<LoginFormProps, LoginFormState>
             data-testid="login-input"
             onChange={(e) => this.onChange(e)}
           />
-          <Button type="submit">Log in</Button>
+          <Button data-testid="login-button" type="submit">Log in</Button>
         </StyledForm>
       </Container>
     );
