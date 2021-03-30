@@ -1,0 +1,59 @@
+[
+    {
+        "__typename": "Launch",
+        "id": 0,
+        "isBooked": true,
+        "rocket": {
+            "__typename": "Rocket",
+            "id": 1,
+            "name": "tester",
+            "type": "test"
+        },
+        "mission": {
+            "__typename": "Mission",
+            "id": 1,
+            "name": "test mission",
+            "missionPatch": "/"
+        },
+        "site": "earth",
+        "isInCart": false
+    },
+    {
+        "__typename": "Launch",
+        "id": 1,
+        "isBooked": true,
+        "rocket": {
+            "__typename": "Rocket",
+            "id": 1,
+            "name": "tester",
+            "type": "test"
+        },
+        "mission": {
+            "__typename": "Mission",
+            "id": 1,
+            "name": "test mission",
+            "missionPatch": "/"
+        },
+        "site": "earth",
+        "isInCart": false
+    },
+    {
+        "__typename": "Launch",
+        "id": 2,
+        "isBooked": true,
+        "rocket": {
+            "__typename": "Rocket",
+            "id": 1,
+            "name": "tester",
+            "type": "test"
+        },
+        "mission": {
+            "__typename": "Mission",
+            "id": 1,
+            "name": "test mission",
+            "missionPatch": "/"
+        },
+        "site": "earth",
+        "isInCart": false
+    }
+]

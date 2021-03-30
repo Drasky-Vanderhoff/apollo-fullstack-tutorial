@@ -68,66 +68,8 @@ import {
   waitForElement,
 } from '../../test-utils';
 import Launches, { GET_LAUNCHES } from '../launches';
-import { fireEvent, screen } from '@testing-library/react';
-
-const mockLaunches = [{
-  __typename: 'Launch',
-  id: 0,
-  isBooked: true,
-  rocket: {
-    __typename: 'Rocket',
-    id: 1,
-    name: 'tester',
-    type: 'test',
-  },
-  mission: {
-    __typename: 'Mission',
-    id: 1,
-    name: 'test mission',
-    missionPatch: '/',
-  },
-  site: 'earth',
-  isInCart: false,
-},
-{
-  __typename: 'Launch',
-  id: 1,
-  isBooked: true,
-  rocket: {
-    __typename: 'Rocket',
-    id: 1,
-    name: 'tester',
-    type: 'test',
-  },
-  mission: {
-    __typename: 'Mission',
-    id: 1,
-    name: 'test mission',
-    missionPatch: '/',
-  },
-  site: 'earth',
-  isInCart: false,
-},
-{
-  __typename: 'Launch',
-  id: 2,
-  isBooked: true,
-  rocket: {
-    __typename: 'Rocket',
-    id: 1,
-    name: 'tester',
-    type: 'test',
-  },
-  mission: {
-    __typename: 'Mission',
-    id: 1,
-    name: 'test mission',
-    missionPatch: '/',
-  },
-  site: 'earth',
-  isInCart: false,
-}
-];
+import mockLaunches from './__mocks__/launches.json';
+import { fireEvent, RenderResult } from '@testing-library/react';
 
 const mockLaunchesIds = mockLaunches.map(({ id }) => ({ value: id }));
 
@@ -140,20 +82,20 @@ const launchesMachine = Machine({
         LOADING_DONE: 'launchesLoaded'
       },
       meta: {
-        test: ({ getByTestId }) => {
+        test: ({ getByTestId } : RenderResult) => {
           expect(getByTestId('launches-loading')).toBeInTheDocument()
         }
       }
     },
     launchesLoaded: {
-      on: {
+/*       on: {
         SELECT_LAUNCH: [{
           target: 'launchSelected',
-          /* cond: (_, e) => mockLaunchesIds.some(({ value }) => value === e.value) */
+          cond: (_, e) => mockLaunchesIds.some(({ value }) => value === e.value)
         }]
-      },
+      }, */
       meta: {
-        test: ({ queryByTestId, getByTestId }) => {
+        test: ({ queryByTestId, getByTestId } : RenderResult) => {
           expect(queryByTestId('launches-loading')).toBeNull()
           mockLaunches.map(
             ({ id }) => expect(getByTestId(`launch-tile-${id}`)).toBeInTheDocument()
@@ -161,15 +103,15 @@ const launchesMachine = Machine({
         }
       }
     },
-    launchSelected: {
+/*     launchSelected: {
       type: 'final',
       meta: {
-        test: async ({ getByText }) => {
+        test: async ({ getByText } : RenderResult) => {
           await waitForElement(() => getByText(/launch/i))
-          expect(screen.getByText(/launch/i)).toBeTruthy()
+          expect(getByText(/launch/i)).toBeTruthy()
         }
       }
-    }
+    } */
   }
 });
 
@@ -178,10 +120,10 @@ const launchesModel = createModel(launchesMachine, {
     LOADING_DONE: {
       exec: async ({ queryByTestId }) => await waitForElementToBeRemoved(() => queryByTestId('launches-loading'))
     },
-    SELECT_LAUNCH: {
-      exec: async ({ getByTestId }, event) => await fireEvent.click(getByTestId(`launch-tile-${event.value}`)),
+/*     SELECT_LAUNCH: {
+      exec: async ({ getByTestId } : RenderResult, event) => await fireEvent.click(getByTestId(`launch-tile-${event.value}`)),
       cases: mockLaunchesIds
-    }
+    } */
   }
 })
 
@@ -199,7 +141,7 @@ describe('Launches Page', () => {
             cursor: '123',
             hasMore: true,
             launches: mockLaunches,
-          }
+          },
         }
       }
     }
@@ -207,12 +149,17 @@ describe('Launches Page', () => {
 
   testPlan.forEach(plan => {
     describe(plan.description, () => {
+      beforeAll(() => {
+        jest.spyOn(console, 'warn').mockImplementation(jest.fn());
+        jest.spyOn(console, 'debug').mockImplementation(jest.fn());
+      });
       afterEach(cleanup);
       plan.paths.forEach(path => {
         it(path.description, async () => {
           const rendered = renderApollo(<Launches />, {
             mocks,
             cache,
+            resolvers: {}
           });
           return path.test(rendered)
         })
